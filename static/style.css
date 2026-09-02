@@ -1,0 +1,142 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background-color: #fff;
+    color: #323232;
+    font-family: "Comic Sans", arial, sans-serif;
+}
+
+header {
+    margin: 0;
+    padding: 20px;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    background-color: #0688a5;
+    color: #fff;
+    text-align: center;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+main {
+    margin: 0 25px;
+    margin-right: 0px;
+    padding: 10px 0;
+    max-width: 1440px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 45% 55%;
+    gap: 25px;
+}
+
+.box {
+    margin: 10px 0;
+    padding: 10px;
+    max-width: 900px;
+    height: 700px;
+    background-color: #eeeded;
+    box-shadow: 10px 10px 8px #323232;
+}
+
+.fps-grid {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.drop-menu {
+    text-align: right;
+    margin: 0px 25px;
+}
+
+.drop-menu select {
+    border-radius: 5px;
+}
+
+.drop-menu p {
+    font-size: 10px;
+}
+
+.camera-box video {
+    width: 100%;
+    transform: scaleX(-1);
+}
+
+.ascii-box textarea {
+    background-color: #353535;
+    color: #ffffff;
+    margin: 0px auto;
+    padding: 10px;
+    width: 100%;
+    height: 83%;
+    text-align: center;
+    border-color: #ffffff00;
+    resize: none;
+}
+
+.button-container {
+    display: grid;
+    grid-template-columns: 20% 20% 30% 15%;
+    gap: 50px;
+}
+
+.button {
+    margin: 20px auto;
+    padding: 10px 100px;
+    color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 3px 8px #565656;
+    font-size: 1.1rem;
+    border-color: #000000;
+}
+
+.start-button {
+    background-color: #18c601;
+}
+.start-button:hover {
+    background-color: #15b600;
+}
+
+.stop-button {
+    background-color: #8b0101;
+}
+.stop-button:hover {
+    background-color: #750000;
+}
+
+.reset-button {
+    background-color: #e2e1e1;
+    color: #000;
+}
+.reset-button:hover {
+    background-color: #cfcfcf;
+}
+
+.replay-button {
+    background-color: #e2e1e1;
+    color: #000;
+}
+.replay-button:hover {
+    background-color: #cfcfcf;
+}
+
+footer {
+    padding: 40px;
+    padding-bottom: 20px;
+    background-color: #d4d3d3;
+    text-align: center;
+}
+footer p {
+    font-size: 8px;
+}
+
+p {
+    font-size: 16px;
+}   
+
+textarea {
+    font-size: 14px;
+}
