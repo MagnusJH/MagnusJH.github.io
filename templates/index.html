@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Video to ASCII Art</title>
+        <link rel="stylesheet" href="/../static/style.css" type="text/css">
+        <script type="module" src="/../static/server.js" defer></script>
+    </head>
+
+    <body>
+        <header>
+            <pre><b>
+                         .____    .__               ____   ____.__    .___               __              _____    __________________ .___.___     _____          __                       
+                         |    |   |__|__  __ ____   \   \ /   /|__| __| _/____  ____   _/  |_  ____     /  _  \  /   _____/\_   ___ \|   |   |   /  _  \________/  |_                     
+________________________ |    |   |  \  \/ // __ \   \   Y   / |  |/ __ |/ __ \/  _ \  \   __\/  _ \   /  /_\  \ \_____  \ /    \  \/|   |   |  /  /_\  \_  __ \   __\ ___________________
+                         |    |___|  |\   /\  ___/    \     /  |  / /_/ \  ___(  <_> )  |  | (  <_> ) /    |    \/        \\     \___|   |   | /    |    \  | \/|  |                      
+                         |_______ \__| \_/  \___  >    \___/   |__\____ |\___  >____/   |__|  \____/  \____|__  /_______  / \______  /___|___| \____|__  /__|   |__|                      
+                                 \/             \/                     \/    \/                               \/        \/         \/                  \/                                 
+            </b></pre>
+        </header>
+        <main>
+            <!-- divide the sections into defferent parts of a grid -->
+            <div class="grid-container">
+                <section class="box camera-box">
+                    <div class="fps-grid">
+                        <section class="camera-box-text">
+                            <h2>Live Camera Feed</h2>
+                            <p>Record a video to convert to ASCII art</p>
+                        </section>
+                        <section class="drop-menu">
+                            <label for="fps-selection">FPS:</label>
+                            <select name="fps-selection" id="fps-selection">
+                                <option value="60">60</option>
+                                <option value="30" selected>30</option>
+                                <option value="20">20</option>
+                                <option value="5">5</option>
+                            </select>
+                            <p>Note: Higher FPS will have higher compute times</p>
+                        </section>
+                    </div>
+
+                    <video id="live-video" autoplay muted></video>
+                </section>
+                <section class="box ascii-box">
+                    <h2>ASCII Art</h2>
+                    <p>Converted live video feed</p>
+                    <textarea id="output" readonly>Your ASCII art will go here...</textarea>
+                </section>
+            </div>
+            <div class="button-container">
+                <button type="button" class="button start-button" id="start-button">Start</button>
+                <button type="button" class="button stop-button" id="stop-button" disabled>Stop</button>
+                <button type="button" class="button reset-button" id="reset-button">Reset</button>
+                <button type="button" class="button replay-button" id="replay-button">Replay</button>
+            </div>
+        </main>
+        <footer>
+            <p>Title credit: <a href="https://patorjk.com/software/taag/#p=display&f=Graffiti&t=Live+Video+to+ASCII+Art&x=none&v=4&h=4&w=80&we=false">Create ASCII Art from Text</a></p>
+            <p>Website created by Magnus Hayden</p>
+            <p>ASCII art conversion programmed by Magnus Hayden</p>
+            <p>Launched on 29 August 2026</p>
+        </footer>
+    </body>
+</html>
