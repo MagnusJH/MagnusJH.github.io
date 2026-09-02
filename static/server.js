@@ -93,7 +93,7 @@ stop_button.addEventListener("click", function() {
         formData.append("video_blob", video_blob, "video_blob.webm");
 
         // run the python code
-        fetch("/api/process", {
+        fetch("/", {
             method: "POST",
             body: formData
         })
