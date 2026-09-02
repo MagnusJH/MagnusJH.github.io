@@ -12,6 +12,10 @@ LIVE_CAPTURE_NAME = "live_video"
 console = Console()
 app = Flask(__name__)
 
+# override form limits (1MB & 16MB)
+app.config['MAX_FORM_MEMORY_SIZE'] = 1024 * 1024  
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+
 # route that main html page will use
 @app.route("/")
 def index():
