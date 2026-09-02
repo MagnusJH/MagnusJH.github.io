@@ -110,6 +110,7 @@ stop_button.addEventListener("click", function() {
             }
         })
         .catch(error => {
+            output.value = "Compute time exceeded (120 sec). Try a shorter video!";
             console.error("Error:", error);
         });
     }
