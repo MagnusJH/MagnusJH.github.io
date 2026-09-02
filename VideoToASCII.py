@@ -18,7 +18,7 @@ def index():
     return render_template("index.html")
 
 # route to receive data from JS, process the data, and send information back
-@app.route("/", methods=["POST"])
+@app.route("/convert", methods=["POST"])
 def process_data():
     # python processing code
     def take_video(video):
