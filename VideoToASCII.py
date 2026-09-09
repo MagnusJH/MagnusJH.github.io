@@ -41,7 +41,8 @@ def process_data():
             if not cap.isOpened():
                 return jsonify({"error": "Could not open the video."})
 
-            fps = round(cap.get(cv2.CAP_PROP_FPS))
+            # calculate fps
+            fps = cap.get(cv2.CAP_PROP_FPS)
 
             # store each individual frame
             full_text_frames = []
