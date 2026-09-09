@@ -4,6 +4,7 @@
 
 body {
     margin: 0;
+    padding: 0;
     background-color: #fff;
     color: #323232;
     font-family: "Comic Sans", arial, sans-serif;
@@ -11,13 +12,19 @@ body {
 
 header {
     margin: 0;
-    padding: 20px;
+    padding: 0px;
+    padding-bottom: 20px;
     border-bottom-left-radius: 50px;
     border-bottom-right-radius: 50px;
     background-color: #0688a5;
     color: #fff;
-    text-align: center;
+    text-align: left;
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+header pre {
+    margin: 0;
+    text-align: center;
 }
 
 main {
@@ -65,13 +72,25 @@ main {
     transform: scaleX(-1);
 }
 
+.upload {
+    background-color: #d1d1d1;
+    width: 100%;
+    height: 80%;
+    padding-top: 20%;
+    text-align: center;
+    border-radius: 25px;
+    border: 3px dashed #444444;
+}
+.upload.drag-over {
+    background-color: #79b7eda8;
+}
+
 .ascii-box textarea {
     background-color: #353535;
     color: #ffffff;
-    margin: 0px auto;
-    padding: 10px;
     width: 100%;
-    height: 83%;
+    height: calc(100% - 100px);
+    box-sizing: border-box;
     text-align: center;
     border-color: #ffffff00;
     resize: none;
@@ -82,11 +101,15 @@ main {
     grid-template-columns: 20% 20% 30% 15%;
     gap: 50px;
 }
+.upload-buttons {
+    grid-template-columns: 40% 30% 15%;
+}
 
 .button {
+    background-color: #e2e1e1;
+    color: #000;
     margin: 20px auto;
     padding: 10px 100px;
-    color: #fff;
     border-radius: 12px;
     box-shadow: 0 3px 8px #565656;
     font-size: 1.1rem;
@@ -95,6 +118,7 @@ main {
 
 .start-button {
     background-color: #18c601;
+    color: #fff;
 }
 .start-button:hover {
     background-color: #15b600;
@@ -102,23 +126,23 @@ main {
 
 .stop-button {
     background-color: #8b0101;
+    color: #fff;
 }
 .stop-button:hover {
     background-color: #750000;
 }
 
-.reset-button {
-    background-color: #e2e1e1;
-    color: #000;
+.begin-processing-button {
+    padding: 10px 100px;
 }
+.begin-processing-button:hover {
+    background-color: #cfcfcf;
+}
+
 .reset-button:hover {
     background-color: #cfcfcf;
 }
 
-.replay-button {
-    background-color: #e2e1e1;
-    color: #000;
-}
 .replay-button:hover {
     background-color: #cfcfcf;
 }
@@ -139,4 +163,85 @@ p {
 
 textarea {
     font-size: 14px;
+}
+
+.sidebar-open-button {
+    position: fixed;
+    top: 5px;
+    left: 5px;
+    z-index: 8888;
+    background-color: #026b83;
+    color: #fff;
+    margin: 0;
+    padding: 10px;
+    border-bottom-right-radius: 12px;
+    box-shadow: 3px 3px 8px #000;
+}
+.sidebar-open-button:hover {
+    background-color: #005a6e;
+}
+
+.sidebar {
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 100%;
+    background-color: #fff;
+    transform: translateX(-110%);
+    transition: transform 0.5s ease-in-out;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border: 2px solid #000;
+    box-shadow: 3px 0px 8px #000;
+}
+.sidebar.open {
+    transform: translateX(0);
+}
+
+.sidebar-header {
+    background-color: #026b83;
+    color: #fff;
+    margin: 0;
+    border-top-right-radius: 20px;
+    padding: 20px 0;
+    text-align: center;
+    border-bottom: 2px solid #000;
+}
+
+.video-type-button {
+    background-color: #eeeded;
+    color: #1d1d1d;
+    width: 90%;
+    padding: 5px;
+    text-align: left;
+    margin: 10px 5px;
+    font-size: 1.5rem;
+    border: 0px solid #eeeded;
+    box-shadow: 1px 1px 8px #000;
+}
+.video-type-button:hover {
+    background-color: #d1d0d0;
+}
+
+.sidebar-close-button {
+    background-color: #026b83;
+    color: #fff;
+    margin: 0;
+    padding: 10px;
+    margin: 5px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    box-shadow: 3px 3px 8px #000;
+    width: 90%;
+    position: fixed;
+    bottom: 0;
+}
+.sidebar-close-button:hover {
+    background-color: #005a6e;
+}
+
+.hidden {
+    display: none;
 }
