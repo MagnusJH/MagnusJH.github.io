@@ -149,6 +149,7 @@ function convertVideo(video, mirrored) {
             // store the replay into variable
             replay = data.frames;
             replay_fps = data.fps;
+            console.log(replay_fps);
             height = data.height;
 
             // play the video
