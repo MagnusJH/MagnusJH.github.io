@@ -171,7 +171,7 @@ function convertVideo(video, isLive) {
         }
     })
     .catch(error => {
-        output.value = "Compute time exceeded (120 sec). Try a shorter video!";
+        output.value = "Compute time exceeded (240 sec). Try a shorter video!";
         console.error("Error:", error);
     });
 }
