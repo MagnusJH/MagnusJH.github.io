@@ -7,6 +7,10 @@ let stop_replay;
 let uploaded_video = null;
 let height;
 
+let start_time;
+let end_time;
+let duration;
+
 // constants for the rest of the program
 const live_video = document.getElementById("live-video");
 const ascii_box = document.getElementById("ascii-box");
@@ -90,6 +94,7 @@ start_button.addEventListener("click", function() {
 
     // start recording in 1 second chunks
     mediaRecorder.start();
+    start_time = performance.now();
 
     // disable buttons so that it doesn't get messed up
     start_button.disabled = true;
@@ -112,6 +117,8 @@ stop_button.addEventListener("click", () => {
 
     // stop the video
     mediaRecorder.stop();
+    end_time = performance.now();
+    duration = (end_time - start_time) / 1000;
 
     // clear previous data
     recordedChunks = [];
@@ -122,7 +129,7 @@ stop_button.addEventListener("click", () => {
     reset_button.disabled = false;
 });
 
-function convertVideo(video, mirrored) {
+function convertVideo(video, isLive) {
 
     // tell user that the data is being processed
     output.style.fontSize = "14px";
@@ -133,7 +140,7 @@ function convertVideo(video, mirrored) {
     formData.append("video_blob", video, "video_blob.webm");
 
     // add mirrored boolean to enable or disable mirroring the video
-    formData.append("mirrored", mirrored ? "1" : "0");
+    formData.append("mirrored", isLive ? "1" : "0");
 
     // run the python code
     let fps;
@@ -148,20 +155,25 @@ function convertVideo(video, mirrored) {
         } else {
             // store the replay into variable
             replay = data.frames;
-            replay_fps = data.fps;
-            console.log(replay_fps);
             height = data.height;
 
+            // if live video then calculate fps
+            if (isLive) {
+                replay_fps = replay.length / duration;
+            } else {
+                replay_fps = data.fps;
+            }
+
+            console.log(replay_fps);
+
             // play the video
-            displayAsciiVideo(replay_fps);
+            displayAsciiVideo();
         }
     })
     .catch(error => {
         output.value = "Compute time exceeded (120 sec). Try a shorter video!";
         console.error("Error:", error);
     });
-
-    return fps;
 }
 
 // reset text to the default value
@@ -175,7 +187,7 @@ reset_button.addEventListener("click", function() {
 });
 
 // this function loops through each frame of the ascii video and displays it to the screen
-async function displayAsciiVideo(fps) {
+async function displayAsciiVideo() {
     
     // ensure there is a replay 
     if (replay == null) {
@@ -201,14 +213,14 @@ async function displayAsciiVideo(fps) {
 
         // display the video frame by frame
         output.value = rep;
-        await delay(1000 / fps);
+        await delay(1000 / replay_fps);
     }
 }
 
 // play the ascii version of the video frame by frame
 replay_button.addEventListener("click", function() {
     // output each frame one by one
-    displayAsciiVideo(replay_fps);
+    displayAsciiVideo();
 });
 
 // this function opens the sidebar
