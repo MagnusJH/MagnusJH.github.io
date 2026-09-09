@@ -7,8 +7,8 @@ import os
 
 CHAR_DENSITY = ".,-~:;_!^*|/\\ircvunxzoa()[]?#&8B@%$MW"
 # CHAR_DENSITY = "WM$%@B8&#?][)(aozxnuvcri\\/|*^!_;:~-,."       Reverse Density
-IMAGE_SCALE = 2
 LIVE_CAPTURE_NAME = "live_video"
+desired_width = 320
 console = Console()
 app = Flask(__name__)
 
@@ -25,7 +25,7 @@ def index():
 @app.route("/convert", methods=["POST"])
 def process_data():
     # python processing code
-    def take_video(video):
+    def take_video(video, mirrored):
 
         # create temp file to write video data onto (remember to delete it at the end)
         temp_file = tempfile.NamedTemporaryFile(suffix=".mp4", delete=False)
@@ -41,6 +41,8 @@ def process_data():
             if not cap.isOpened():
                 return jsonify({"error": "Could not open the video."})
 
+            fps = round(cap.get(cv2.CAP_PROP_FPS))
+
             # store each individual frame
             full_text_frames = []
 
@@ -54,16 +56,17 @@ def process_data():
                     print("Reached end of Video")
                     break
 
-                # flip frame so it appears mirrored
-                mirrored_frame = cv2.flip(frame, 1)
+                # flip frame so it appears mirrored if needed
+                if mirrored:
+                    frame = cv2.flip(frame, 1)
 
                 # save image
                 img_name = LIVE_CAPTURE_NAME + ".jpg"
-                cv2.imwrite(img_name, mirrored_frame)
+                cv2.imwrite(img_name, frame)
 
                 # convert frame to text
                 with Image.open(img_name) as img:
-                    ascii_img = convert_image(img)
+                    ascii_img, ascii_img_height = convert_image(img)
                     full_text_frames.append(ascii_img)
 
         # manually delete the file
@@ -72,37 +75,42 @@ def process_data():
             cap.release()
             os.unlink(temp_file.name)
 
-        return jsonify({"frames": full_text_frames})
+        return jsonify({"frames": full_text_frames, "fps": fps, "height": ascii_img_height})
 
     def convert_image(img):
 
         # get the size of the image
         width, height = img.size
 
-        # convert the height to print only 1,000 lines
-        scaled_height = int(height / IMAGE_SCALE)
-        # convert the width to the same ratio as the height
-        scaled_width = int(width / IMAGE_SCALE)
+        # get the ratio to resize it
+        resize_ratio = width / desired_width
+
+        # resize the frame
+        new_height = int(height / resize_ratio)
+        new_width = int(width / resize_ratio)  
+        resized_img = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
 
         # convert the image to grayscale
-        grayscale_img = img.convert('L')
+        grayscale_img = resized_img.convert('L')
+
+        width, height = grayscale_img.size
 
         line = ""
         full_text = ""
         # loop through the pixels on the image
-        for h in range(0, scaled_height):
+        for h in range(0, height):
             full_text += line + "\n"
             line = ""
-            for w in range(0, scaled_width):
+            for w in range(0, width):
 
                 # grab the brightness of the specific pixel
-                brightness = grayscale_img.getpixel((w*IMAGE_SCALE, h*IMAGE_SCALE))
+                brightness = grayscale_img.getpixel((w, h))
 
                 # convert brightness scale to ascii brightness scale
                 p = int(brightness * ((len(CHAR_DENSITY)-1) / 255))
                 line += CHAR_DENSITY[p] + " "
 
-        return full_text
+        return full_text, height
 
     # check for valid video files
     if "video_blob" not in request.files:
@@ -118,7 +126,17 @@ def process_data():
     # retrieve the video data itself
     video_data = video.read()
 
-    return take_video(video_data)
+    # retrieve the mirrored state
+    if not request.form.get("mirrored"):
+        return jsonify({"error": "Mirrored variable broke"})
+    
+    mirrored = request.form.get("mirrored")
+    if mirrored == "1":
+        mirrored = True
+    else:
+        mirrored = False
+
+    return take_video(video_data, mirrored)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
